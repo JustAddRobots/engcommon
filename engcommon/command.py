@@ -4,18 +4,13 @@
 This module contains functions used to execute shell commands.
 """
 
-import errno
 import glob
 import logging
 import os
-import pprint
-import random
 import shlex
-import shutil
 import subprocess
 import time
 
-from . import hardware
 from . import error
 from .constants import _const as CONSTANTS
 
@@ -205,5 +200,3 @@ def get_shell_cmd(cmd, **kwargs):
         'stdout': stdout,
         'stderr': stderr
     }
-
-

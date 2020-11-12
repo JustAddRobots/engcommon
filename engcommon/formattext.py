@@ -6,7 +6,8 @@ This module contains functions for text formatting.
 
 import logging
 
-logger = logging.getLogger(__name__)3
+logger = logging.getLogger(__name__)
+
 
 def add_colour(text, colour):
     """Get coloured text string.

@@ -1,38 +1,16 @@
 #!/usr/bin/env python3
 
 """
-This module contains functions for generating random words.
+This module contains functions for generating random words. This is useful for
+creating easily readable unique strings.
 """
 
-import collections
-import datetime
-import errno
-import glob
 import io
 import json
 import logging
-import logging.config
 import numpy
-import pymysql
-import os.path
-import re
-import os
-import packaging.version
-import pkg_resources
-import pprint
 import random
-import shlex
-import shutil
-import socket
-import subprocess
-import time
 import urllib.request
-import urllib.parse
-import urllib.error
-
-from . import hardware
-from . import error
-from .constants import _const as CONSTANTS
 
 logger = logging.getLogger(__name__)
 

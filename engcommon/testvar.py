@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-This module contains functions for testing run-time variables.
+This module contains functions for testing variables at run-time.
 """
 
 import collections

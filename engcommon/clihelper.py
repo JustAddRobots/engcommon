@@ -16,8 +16,12 @@ import logging
 import os
 import pkg_resources
 
+from . import fileio
+from . import formattext
 from . import hardware
-from . import util
+from . import log
+from . import randomword
+from . import testvar
 
 logger = logging.getLogger(__name__)
 
@@ -50,13 +54,13 @@ class CLI:
         self._args = self._get_args(args)
         self._version = pkg_resources.get_distribution(project_name).version
         self._log_id = self._get_log_id()
-        self._logdir = util.get_logdir(
+        self._logdir = log.get_logdir(
             self._project_name,
             prefix = self._args["prefix"],
             suffix = self._log_id,
         )
         os.makedirs(self._logdir)
-        loggers = util.get_std_logger(
+        loggers = log.get_std_logger(
             self._project_name,
             self._args["debug"],
             logdir = self._logdir,
@@ -109,27 +113,59 @@ class CLI:
 
     def _get_log_id(self):
         if not self._args["log_id"]:
-            log_id = util.get_random_phrase()
+            log_id = randomword.get_random_phrase()
         else:
             log_id = self._args["log_id"]
         return log_id
 
+    def _get_third_party_list(self):
+        """Get third party packages to use for version map.
+    
+        Get a list of packages whose version number we'll want.
+    
+        Args:
+            None
+    
+        Returns:
+            third_party (list): List of packages.
+        """
+        third_party = ["engcommon"]
+        return third_party
+
+
+    def _get_versions(self, tool_list):
+        """Get tools with their versions.
+    
+        Args:
+            tool_list (list): Tools of which to get versions.
+    
+        Returns:
+            versions (dict): keys are tool name, values are version string.
+        """
+        # Shell command to get the version number for each tool
+        pkgs = {i.key: i.version for i in pkg_resources.working_set}
+        versions = {}
+        for tool in tool_list:
+            if tool in pkgs.keys():
+                versions[tool] = pkgs[tool]
+        return versions
+
+
     def _print_versions(self):
         """Print module and third-party dependency versions.
 
-        Print versions and verify NVIDIA driver <-> CUDA toolkit
-        version compatibility.
+        Print versions to verify version compatibility.
         """
         module_title = ("{0} v: {1}".format(
             self._project_name,
             self._version,
         ))
-        logger.info(util.add_colour(module_title, "blue"))
-        third_party = util.get_third_party_list()
-        versions = util.get_versions(third_party)
+        logger.info(formattext.add_colour(module_title, "blue"))
+        third_party = self._get_third_party_list()
+        versions = self._get_versions(third_party)
         for tool, ver in versions.items():
             logger.debug("{0} v: {1}".format(tool, ver))
-        logger.debug(util.get_debug(self._args))
+        logger.debug(testvar.get_debug(self._args))
         return None
 
     def print_versions(self):
@@ -158,8 +194,8 @@ class CLI:
         """
         logfile_cmd = self._fh.baseFilename
         logfile_test = logfile_cmd.replace('.cmd.', '.test.')
-        blob = util.get_formatted_logs(dict_)
-        util.write_file(logfile_test, blob, mode)
+        str_ = log.get_formatted_logs(dict_)
+        fileio.write_file(logfile_test, str_, mode)
         return None
 
     def write_logs(self, dict_, mode):

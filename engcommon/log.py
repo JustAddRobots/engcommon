@@ -5,35 +5,11 @@ This module contains functions for configuring and writing logs for institutiona
 standardisation.
 """
 
-import collections
 import datetime
-import errno
-import glob
-import io
-import json
 import logging
 import logging.config
-import numpy
-import pymysql
-import os.path
-import re
 import os
-import packaging.version
-import pkg_resources
-import pprint
-import random
-import shlex
-import shutil
 import socket
-import subprocess
-import time
-import urllib.request
-import urllib.parse
-import urllib.error
-
-from . import hardware
-from . import error
-from .constants import _const as CONSTANTS
 
 logger = logging.getLogger(__name__)
 
@@ -163,11 +139,13 @@ def get_std_logger(module_name, debug, **kwargs):
     logfile_cmd = "{0}/{1}.cmd.{2}.log".format(logdir, module_name, my_pid)
     logfile_debug = "{0}/{1}.debug.{2}.log".format(logdir, module_name, my_pid)
     buffer_cmd = io.StringIO()
+
     logger_dict = get_std_logger_conf()
     logger_dict['handlers']['file']['filename'] = logfile_cmd
     logger_dict['handlers']['buffer']['stream'] = buffer_cmd
     logger_dict['handlers']['debug']['filename'] = logfile_debug
     logger_dict['handlers']['noformat']['filename'] = logfile_debug
+
     logging.config.dictConfig(logger_dict)
     lgr = logging.getLogger()
     lgr_nf = logging.getLogger('noformat')
@@ -175,6 +153,7 @@ def get_std_logger(module_name, debug, **kwargs):
     ch = logging.getLogger().handlers[1]  # console
     bh = logging.getLogger().handlers[2]  # buffer
     dh = logging.getLogger().handlers[3]  # debug
+
     if debug:
         fh.setLevel(logging.DEBUG)
         ch.setLevel(logging.DEBUG)
@@ -195,7 +174,7 @@ def get_std_logger(module_name, debug, **kwargs):
 def get_formatted_logs(dict_):
     """Get command log string from dictionary.
 
-    Convert dictionary of command output to string with headers output.
+    Convert dictionary of command output to a string with text headers.
 
     Args:
         dict_ (dict): keys are command names, values are command output.

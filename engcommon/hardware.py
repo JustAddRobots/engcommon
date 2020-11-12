@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-This module contains utility functions specific for gathering information
+This module contains functions specific for gathering information
 about hardware or performing tasks on hardware, firmware, DMI, devices, etc.
 """
 
@@ -10,7 +10,8 @@ import logging
 import os
 import re
 
-from . import util
+from . import command
+from . import testvar
 from .constants import _const as CONSTANTS
 
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ def get_cpuinfo():
     a dict of key/value pairs of the processor info.
 
     Ex:
-    cpuinfo[0]["vendor_id"] is the "vendor_id" of processor "0".
+        cpuinfo[0]["vendor_id"] is the "vendor_id" of processor "0".
 
     Args:
         None
@@ -33,7 +34,7 @@ def get_cpuinfo():
     """
     cpuinfo = []
     cmd = "{0}".format(CONSTANTS().CMD_CPUINFO)
-    dict_ = util.get_shell_cmd(cmd)
+    dict_ = command.get_shell_cmd(cmd)
     stdout = dict_["stdout"]
     for stanza in stdout.split('\n\n'):
         if stanza:
@@ -44,7 +45,7 @@ def get_cpuinfo():
                     v = (line.split(":")[1]).strip()
                     entry[k] = v
             cpuinfo.insert(int(entry['processor']), entry)
-    util.check_null(cpuinfo)
+    testvar.check_null(cpuinfo)
     return cpuinfo
 
 
@@ -65,9 +66,9 @@ def get_cpu_vendor():
     elif "AuthenticAMD" in vendor_id:
         vendor = "amd"
     else:
-        pass
+        pass  # Need ARM platforms for testing
 
-    util.check_null(vendor)
+    testvar.check_null(vendor)
     return vendor
 
 
@@ -81,7 +82,7 @@ def get_arch():
         arch (str): architecture.
     """
     cmd = "{0} -i".format(CONSTANTS().CMD_UNAME)
-    dict_ = util.get_shell_cmd(cmd)
+    dict_ = command.get_shell_cmd(cmd)
     arch = dict_["stdout"].strip()
     return arch
 
@@ -133,7 +134,7 @@ def get_cpu_core_count_cpuinfo():
         count = set(count)
         count = len(count)
 
-    util.check_null(count)
+    testvar.check_null(count)
     return count
 
 
@@ -147,7 +148,7 @@ def get_cpu_core_count_lscpu():
         count (int): core count.
     """
     cmd = "{0}".format(CONSTANTS().CMD_LSCPU)
-    dict_ = util.get_shell_cmd(cmd)
+    dict_ = command.get_shell_cmd(cmd)
     stdout = dict_["stdout"]
     lscpu = {}
     for line in stdout.splitlines():
@@ -182,7 +183,7 @@ def get_meminfo():
     """
     meminfo = {}
     cmd = "{0}".format(CONSTANTS().CMD_MEMINFO)
-    dict_ = util.get_shell_cmd(cmd)
+    dict_ = command.get_shell_cmd(cmd)
     stdout = dict_["stdout"]
     for line in stdout.splitlines():
         if line:
@@ -192,15 +193,15 @@ def get_meminfo():
                 v = int(v)
             except ValueError:
                 logger.critical("Integer Conversion Error")
-                logger.debug(util.get_debug(v))
+                logger.debug(testvar.get_debug(v))
                 raise
             meminfo[k] = v
-    util.check_null(meminfo)
+    testvar.check_null(meminfo)
     return meminfo
 
 
 def clear_sel():
     """Clear SEL."""
     cmd = "{0} sel clear".format(CONSTANTS().CMD_IPMITOOL)
-    util.call_shell_cmd(cmd)
+    command.call_shell_cmd(cmd)
     return None
