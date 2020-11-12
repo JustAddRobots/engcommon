@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 class CLI:
     """A class for organising CLI bits.
 
-    This class is used to facilitate consistent CLI output.
+    This class is used to facilitate consistent CLI output across packages.
 
     Attributes:
         version (str): Version.
@@ -129,22 +129,6 @@ class CLI:
         versions = util.get_versions(third_party)
         for tool, ver in versions.items():
             logger.debug("{0} v: {1}".format(tool, ver))
-        if not util.is_compat_nvidia_cuda(versions):
-            compat_tbl = util.get_cuda_compat_tbl()
-            logger.warning(
-                (
-                    "Incompatible NVIDIA host driver for CUDA toolkit {0}"
-                ).format(versions["cuda"])
-            )
-            logger.warning("Requires: {0}".format(compat_tbl[versions["cuda"]]))
-            logger.warning("Installed: {0}".format(versions["nvidia"]))
-        if hardware.is_loaded_module("nouveau"):
-            logger.warning("{0} module detected, use {1} instead".format(
-                *(tuple(util.add_colour(*i) for i in [
-                    ("nouveau", "red"),
-                    ("nvidia", "green")
-                ])))
-            )
         logger.debug(util.get_debug(self._args))
         return None
 

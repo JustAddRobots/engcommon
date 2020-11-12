@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-# Limit to important custom Exceptions
+"""
+This module defines important custom errors that have a frequent instituional use case.
+"""
+
 # Exception.args must be a tuple
 
 
 class ShellCommandExecutionError(Exception):
 
     def __init__(self, d_args):
-        self.msg = "Command failed with non-zero return code"
+        self.msg = "Command failed with non-zero return code."
         self.args = list(d_args.items())
 
     def __str__(self):
@@ -17,7 +20,7 @@ class ShellCommandExecutionError(Exception):
 class NullValueError(Exception):
 
     def __init__(self):
-        self.msg = "Variable has null value"
+        self.msg = "Variable has null value."
 
     def __str__(self):
         return self.msg
@@ -26,7 +29,7 @@ class NullValueError(Exception):
 class PathNotExistError(Exception):
 
     def __init__(self, args):
-        self.msg = "Path does not exist"
+        self.msg = "Path does not exist."
         self.args = args
 
     def __str__(self):
@@ -36,7 +39,7 @@ class PathNotExistError(Exception):
 class ProcessKilledError(Exception):
 
     def __init__(self, args):
-        self.msg = "Process was killed"
+        self.msg = "Process was killed."
         self.args = args
 
     def __str__(self):
@@ -46,7 +49,7 @@ class ProcessKilledError(Exception):
 class HardwareCheckError(Exception):
 
     def __init__(self, args):
-        self.msg = "Hardware check failed"
+        self.msg = "Hardware check failed."
         self.args = args
 
     def __str__(self):
@@ -56,7 +59,7 @@ class HardwareCheckError(Exception):
 class InvalidOptionError(Exception):
 
     def __init__(self, args):
-        self.msg = "Invalid Command-Line Option"
+        self.msg = "Invalid Command-Line Option."
         self.args = args
 
     def __str__(self):
