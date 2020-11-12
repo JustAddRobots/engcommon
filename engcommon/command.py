@@ -12,6 +12,7 @@ import subprocess
 import time
 
 from . import error
+from . import testvar
 from .constants import _const as CONSTANTS
 
 logger = logging.getLogger(__name__)
@@ -47,7 +48,7 @@ def check_returncode(cmd, ret_code):
                     'cmd': cmd,
                 })
             except error.ShellCommandExecutionError as e:
-                logger.info(get_debug(e.args))
+                logger.info(testvar.get_debug(e.args))
                 logger.error("Shell Command Execution Error")
                 raise
     return None
@@ -93,7 +94,7 @@ def call_shell_cmd(cmd, stdout=None, stderr=subprocess.STDOUT, **kwargs):
         )
     except OSError:
         logger.error("Shell Command Start Error")
-        logger.debug(get_debug((cmd, my_cwd, my_shell)))
+        logger.debug(testvar.get_debug((cmd, my_cwd, my_shell)))
         raise
     else:
         p.communicate()
@@ -138,7 +139,11 @@ def get_shell_cmd(cmd, **kwargs):
     """Get shell command output.
 
     Args:
-        cmd (str):
+        cmd (str): Command to run.
+
+    **kwargs:
+        cwd (str): Current working dir from which to run cmd.
+        encoding (str): Text encoding.
 
     Returns:
         dict(
@@ -183,7 +188,7 @@ def get_shell_cmd(cmd, **kwargs):
                 r = p.communicate(my_stdin)
             except KeyboardInterrupt:
                 logger.error("Keyboard Interrupt, sending SIGTERM")
-                logger.debug(get_debug(cmd))
+                logger.debug(testvar.get_debug(cmd))
                 p.terminate()
                 raise
             else:

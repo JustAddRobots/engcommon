@@ -36,6 +36,10 @@ class _const(object):
         return "cat /proc/cpuinfo"
 
     @constant
+    def CMD_IPMITOOL():
+        return "ipmitool"
+
+    @constant
     def CMD_LSCPU():
         return "lscpu"
 
@@ -50,5 +54,11 @@ class _const(object):
     @constant
     def CMD_UNAME():
         return "uname"
+
+    @constant
+    def IGNORE_RETURNCODE():
+        return {
+            "smartctl": 4,
+        }
 
     # === END HARDWARE COMMANDS ===

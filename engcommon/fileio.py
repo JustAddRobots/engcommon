@@ -6,6 +6,8 @@ This module contains file I/O functions.
 
 import logging
 
+from . import testvar
+
 logger = logging.getLogger(__name__)
 
 
@@ -27,7 +29,7 @@ def write_file(filename, content, mode):
         f = open(filename, mode)
     except OSError:
         logger.error("File Open Error")
-        logger.debug(get_debug(filename))
+        logger.debug(testvar.get_debug(filename))
         raise
     else:
         f.write(content)
