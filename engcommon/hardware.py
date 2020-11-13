@@ -197,6 +197,33 @@ def get_meminfo():
     return meminfo
 
 
+def get_dmidecode():
+    """Get dmidecode.
+
+    Get DMI info keyed by record name (e.g.  'BIOS Information',
+    'System Information', 'Chassis Information').
+
+    Args:
+        None
+
+    Returns:
+        dmi (dict): DMI info.
+    """
+    dmi = {}
+    cmd = '{0}'.format(CONSTANTS().CMD_DMIDECODE)
+    dict_ = command.get_shell_cmd(cmd)
+    stdout = dict_["stdout"]
+    for stanza in stdout.split('\n\n'):
+        if stanza.startswith("Handle"):
+            stanza_lines = stanza.splitlines()
+            record_name = stanza_lines[1]
+            if record_name not in list(dmi.keys()):
+                dmi[record_name] = []
+            dmi[record_name].append(stanza)
+    testvar.check_null(dmi)
+    return dmi
+
+
 def clear_sel():
     """Clear SEL."""
     cmd = "{0} sel clear".format(CONSTANTS().CMD_IPMITOOL)

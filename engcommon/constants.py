@@ -37,6 +37,10 @@ class _const(object):
         return "cat /proc/cpuinfo"
 
     @constant
+    def CMD_DMIDECODE():
+        return "dmidecode"
+
+    @constant
     def CMD_IPMITOOL():
         return "ipmitool"
 
