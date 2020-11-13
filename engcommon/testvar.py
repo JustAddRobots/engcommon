@@ -5,9 +5,11 @@ This module contains functions for testing variables at run-time.
 """
 
 import collections
+import logging
 import pprint
 
 from . import error
+
 
 logger = logging.getLogger(__name__)
 

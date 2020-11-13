@@ -5,7 +5,6 @@ This module contains functions for generating random words. This is useful for
 creating easily readable unique strings.
 """
 
-import io
 import json
 import logging
 import numpy
@@ -51,6 +50,7 @@ def get_random_phrase(**kwargs):
                 POS_order.pop(0)
     phrase = "-".join(good_word_list)
     return phrase
+
 
 def get_random_phrase_probability(**kwargs):
     """Get the probability of a n-words-length phrase being randomly

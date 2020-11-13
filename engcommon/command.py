@@ -17,6 +17,7 @@ from .constants import _const as CONSTANTS
 
 logger = logging.getLogger(__name__)
 
+
 def check_returncode(cmd, ret_code):
     """Check the returncode of a command. Raise if problematic.
 
@@ -52,6 +53,7 @@ def check_returncode(cmd, ret_code):
                 logger.error("Shell Command Execution Error")
                 raise
     return None
+
 
 def call_shell_cmd(cmd, stdout=None, stderr=subprocess.STDOUT, **kwargs):
     """Run shell command, disregard the output.
@@ -103,6 +105,7 @@ def call_shell_cmd(cmd, stdout=None, stderr=subprocess.STDOUT, **kwargs):
     time.sleep(1)
     return None
 
+
 def cmd_cleanup(cmd):
     """Create a command list from shell command.
 
@@ -134,6 +137,7 @@ def cmd_cleanup(cmd):
         else:
             cmd_list.append(arg)
     return cmd_list
+
 
 def get_shell_cmd(cmd, **kwargs):
     """Get shell command output.

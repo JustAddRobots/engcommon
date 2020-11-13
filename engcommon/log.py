@@ -6,6 +6,7 @@ standardisation.
 """
 
 import datetime
+import io
 import logging
 import logging.config
 import os
