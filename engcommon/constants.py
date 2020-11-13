@@ -5,6 +5,7 @@ This module defines constants for frequently used commands for institutional
 standardisation across packages.
 """
 
+
 def constant(f):
     def fset(self, value):
         raise TypeError

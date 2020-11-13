@@ -5,10 +5,7 @@ This module contains functions specific for gathering information
 about hardware or performing tasks on hardware, firmware, DMI, devices, etc.
 """
 
-import collections
 import logging
-import os
-import re
 
 from . import command
 from . import testvar

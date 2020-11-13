@@ -15,13 +15,13 @@ setup(
     name = "engcommon",
     version = pkgversion,
     description = "Common Engineering Code",
-    url = ("git+ssh://git@{0}.github.com/"
-           "JustAddRobots/{0}.git@{1}").format(name, pkgversion),
+    url = ("git+ssh://git@engcommon.github.com/"
+           "JustAddRobots/engcommon.git@{0}").format(pkgversion),
     author = "Roderick Constance",
-    author_email = "justaddrobots@icloud.com"
+    author_email = "justaddrobots@icloud.com",
     license = "Private",
     packages = [
-        "{0}".format(name),
+        "engcommon",
     ],
     install_requires = [
         "numpy",

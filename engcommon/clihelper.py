@@ -18,7 +18,6 @@ import pkg_resources
 
 from . import fileio
 from . import formattext
-from . import hardware
 from . import log
 from . import randomword
 from . import testvar
@@ -120,25 +119,24 @@ class CLI:
 
     def _get_third_party_list(self):
         """Get third party packages to use for version map.
-    
+
         Get a list of packages whose version number we'll want.
-    
+
         Args:
             None
-    
+
         Returns:
             third_party (list): List of packages.
         """
         third_party = ["engcommon"]
         return third_party
 
-
     def _get_versions(self, tool_list):
         """Get tools with their versions.
-    
+
         Args:
             tool_list (list): Tools of which to get versions.
-    
+
         Returns:
             versions (dict): keys are tool name, values are version string.
         """
@@ -149,7 +147,6 @@ class CLI:
             if tool in pkgs.keys():
                 versions[tool] = pkgs[tool]
         return versions
-
 
     def _print_versions(self):
         """Print module and third-party dependency versions.
