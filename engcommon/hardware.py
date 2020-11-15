@@ -47,13 +47,13 @@ def get_cpuinfo():
 
 
 def get_cpu_vendor():
-    """Get vendor string of either "Intel" or "AMD".
+    """Get vendor string of either "Intel" or "AMD" CPUs.
 
     Args:
         None
 
     Returns:
-        vendor (str): vendor.
+        vendor (str): vendor in lowercase.
     """
     vendor = ""
     cpuinfo = get_cpuinfo()
@@ -84,22 +84,22 @@ def get_arch():
     return arch
 
 
-def get_cpu_extensions_with_prefix(prefix):
-    """Get CPU extensions that start with "prefix".
+def get_cpu_flags_with_prefix(prefix):
+    """Get CPU flags that start with "prefix".
 
     Args:
-        prefix (str): extension prefix.
+        prefix (str): flag prefix.
 
     Returns:
-        extensions (list): extensions
+        prefix_flags (list): CPU flags with prefix.
     """
-    extensions = []
+    prefix_flags = []
     cpuinfo = get_cpuinfo()
     flags = cpuinfo[0]["flags"].split()
     for flag in flags:
         if flag.startswith(prefix):
-            extensions.append(flag)
-    return extensions
+            prefix_flags.append(flag)
+    return prefix_flags
 
 
 def get_cpu_core_count_cpuinfo():
