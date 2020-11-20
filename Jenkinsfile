@@ -10,7 +10,7 @@ pipeline {
     agent any
     environment {
         ARCH = sh(returnStdout: true, script: 'uname -m').trim()
-        KUBECONFIG = '/usr/local/etc/kube_config'
+        KUBECONFIG = '/opt/kube/config'
     }
     stages {
         stage ('Create Git Tag Hash') {
@@ -54,7 +54,7 @@ pipeline {
                         ]],
                         submoduleCfg: []
                         userRemoteConfigs: [[
-                            credentialsID: "buildbot-DeployKey",
+                            credentialsID: "buildbot-runxhpl",
                             url: "git@github.com:JustAddRobots/runxhpl.git"
                         ]]
                     ])
