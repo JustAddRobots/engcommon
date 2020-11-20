@@ -13,7 +13,7 @@ pipeline {
         KUBECONFIG = '/opt/kube/config'
     }
     stages {
-        stage ('Create Git Tag Hash') {
+        stage('Create Git Tag Hash') {
             steps {
                 script {
                     HASHLONG = sh(
@@ -45,12 +45,12 @@ pipeline {
                 )
             }
         }
-        stage ("Start Parallel Dependent Pipelines") {
+        stage("Start Parallel Dependent Pipelines") {
             parallel {
-                stage("foo") {
-                steps {
-                    parallelBuild("runxhpl")
-                }
+                stage('Start Builds') {
+                    steps {
+                        parallelBuild("runxhpl")
+                    }
                 }
             }
         }
@@ -81,7 +81,7 @@ def parallelBuild(module) {
             url: "git@github.com:JustAddRobots/${module}.git"
         ]]
     ])
-    stage ("${module}: Create Git Tag Hash") {
+    stage("${module}: Create Git Tag Hash") {
         dir("${module}")
         steps {
             script {
@@ -110,7 +110,7 @@ def parallelBuild(module) {
             echo "TAG_HASH: v${p_TAG_HASH}"
         }
     }
-    stage ("${module}: Build Docker Container") {
+    stage("${module}: Build Docker Container") {
         dir("${module}")
         steps {
             script {
@@ -137,7 +137,7 @@ def parallelBuild(module) {
             sh ("""make -C docker/\$ARCH/el-7 SERVER=\$SERVER build push""")
         }
     }
-    stage ("${module}: Deploy to Kubernetes Cluster") {
+    stage("${module}: Deploy to Kubernetes Cluster") {
         steps {
             script {
                 IMG = """\
