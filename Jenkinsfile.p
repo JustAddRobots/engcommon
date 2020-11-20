@@ -65,22 +65,23 @@ def parallelBuild(module) {
     def p_BRANCH
     def p_SERVER
 
-    stage("${module}: Checkout")
-    checkout([
-        $class: "GitSCM",
-        branches: [[name: "refs/heads/master"]],
-        doGenerateSubmoduleConfigurations: false,
-        extensions: [
-               [$class: "RelativeTargetDirectory", 
-                relativeTargetDir: "${module}"],
-               [$class: "CleanBeforeCheckout"],
-        ], 
-        submoduleCfg: [],
-        userRemoteConfigs: [[
-            credentialsID: "buildbot-${module}",
-            url: "git@github.com:JustAddRobots/${module}.git"
-        ]]
-    ])
+    stage("${module}: Checkout") {
+        checkout([
+            $class: "GitSCM",
+            branches: [[name: "refs/heads/master"]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                   [$class: "RelativeTargetDirectory", 
+                    relativeTargetDir: "${module}"],
+                   [$class: "CleanBeforeCheckout"],
+            ], 
+            submoduleCfg: [],
+            userRemoteConfigs: [[
+                credentialsID: "buildbot-${module}",
+                url: "git@github.com:JustAddRobots/${module}.git"
+            ]]
+        ])
+    }
     stage("${module}: Create Git Tag Hash") {
         dir("${module}")
         steps {
