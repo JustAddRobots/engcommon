@@ -15,8 +15,7 @@ setup(
     name = "engcommon",
     version = pkgversion,
     description = "Common Engineering Code",
-    url = ("git+ssh://git@engcommon.github.com/"
-           "JustAddRobots/engcommon.git@{0}").format(pkgversion),
+    url = "https://github.com/JustAddRobots/engcommon",
     author = "Roderick Constance",
     author_email = "justaddrobots@icloud.com",
     license = "Private",
