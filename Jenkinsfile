@@ -38,27 +38,28 @@ pipeline {
                 echo "TAG_HASH: v${TAG_HASH}"
             }
         }
-        stage ("Checkout Dependent SCM")
+        stage ("Checkout Dependent SCM") {
             steps {
                 parallel {
-                    stage("runxhpl: Checkout")
-                    checkout([
-                        $class: "GitSCM",
-                        branches: [[name: "refs/heads/main"]],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [
-                            [
-                                $class: "RelativeTargetDirectory",
-                                relativeTargetDir: "runxhpl"
+                    stage("runxhpl: Checkout") {
+                        checkout([
+                            $class: "GitSCM",
+                            branches: [[name: "refs/heads/main"]],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [
+                                [
+                                    $class: "RelativeTargetDirectory",
+                                    relativeTargetDir: "runxhpl"
+                                ],
+                                [$class: "CleanBeforeCheckout"],
                             ],
-                            [$class: "CleanBeforeCheckout"],
-                        ],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[
-                            credentialsID: "buildbot-runxhpl",
-                            url: "git@github.com:JustAddRobots/runxhpl.git"
-                        ]]
-                    ])
+                            submoduleCfg: [],
+                            userRemoteConfigs: [[
+                                credentialsID: "buildbot-runxhpl",
+                                url: "git@github.com:JustAddRobots/runxhpl.git"
+                            ]]
+                        ])
+                    }
                     stage ('runxhpl: Create Git Tag Hash') {
                         steps {
                             script {
