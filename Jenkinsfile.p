@@ -54,6 +54,32 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            slackSend(
+                color: "good",
+                message: """\
+                    SUCCESS ${env.JOB_NAME} #${env.BUILD_NUMBER},
+                    v${TAG_HASH}, \
+                    Took: ${currentBuild.durationString.replace(
+                        ' and counting', ''
+                    )} (<${env.BUILD_URL}|Open>)
+                """.stripIndent()
+            )
+        }
+        failure {
+            slackSend(
+                color: "danger",
+                message: """\
+                    FAILURE ${env.JOB_NAME} #${env.BUILD_NUMBER},
+                    v${TAG_HASH}, \
+                    Took: ${currentBuild.durationString.replace(
+                        ' and counting', ''
+                    )} (<${env.BUILD_URL}|Open>)
+                """.stripIndent()
+            )
+        }
+    }
 }
 
 def parallelBuild(module) {
@@ -147,31 +173,5 @@ def parallelBuild(module) {
                     -n all -i ${IMG}
                 """.stripIndent()
             )
-    }
-    post {
-        success {
-            slackSend(
-                color: "good",
-                message: """\
-                    SUCCESS ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, \
-                    Took: ${currentBuild.durationString.replace(
-                        ' and counting', ''
-                    )} (<${env.BUILD_URL}|Open>)
-                """.stripIndent()
-            )
-        }
-        failure {
-            slackSend(
-                color: "danger",
-                message: """\
-                    FAILURE ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, \
-                    Took: ${currentBuild.durationString.replace(
-                        ' and counting', ''
-                    )} (<${env.BUILD_URL}|Open>)
-                """.stripIndent()
-            )
-        }
     }
 }
