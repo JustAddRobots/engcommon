@@ -46,10 +46,11 @@ pipeline {
             )
         }
         stage ("Start Parallel Dependent Pipelines") {
+            failFast true
             steps {
                 parallel {
                     parallelBuild("runxhpl")
-                }, failFast: true
+                }
             }
         }
     }
