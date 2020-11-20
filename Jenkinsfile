@@ -47,11 +47,12 @@ pipeline {
                         branches: [[name: "refs/heads/main"]],
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [
-                               [$class: "RelativeTargetDirectory",
-                                relativeTargetDir: "runxhpl"],
-                               [$class: "CleanBeforeCheckout"],
-
-                        ]],
+                            [
+                                $class: "RelativeTargetDirectory",
+                                relativeTargetDir: "runxhpl"
+                            ],
+                            [$class: "CleanBeforeCheckout"],
+                        ],
                         submoduleCfg: []
                         userRemoteConfigs: [[
                             credentialsID: "buildbot-runxhpl",
