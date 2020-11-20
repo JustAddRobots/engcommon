@@ -68,7 +68,7 @@ def parallelBuild(module) {
     stage("${module}: Checkout") {
         checkout([
             $class: "GitSCM",
-            branches: [[name: "refs/heads/master"]],
+            branches: [[name: "refs/heads/main"]],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
                    [$class: "RelativeTargetDirectory", 
@@ -77,7 +77,7 @@ def parallelBuild(module) {
             ], 
             submoduleCfg: [],
             userRemoteConfigs: [[
-                credentialsId: "buildbot-runxhpl",
+                credentialsId: "buildbot-${module}",
                 url: "git@github.com:JustAddRobots/${module}.git"
             ]]
         ])
