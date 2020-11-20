@@ -43,7 +43,7 @@ pipeline {
                 slackSend(
                     message: """\
                         STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
-                        v${TAG_HASH} (<${env.BUILD_URL}|Open>)"
+                        v${TAG_HASH} (<${env.BUILD_URL}|Open>)
                      """.stripIndent()
                 )
             }
@@ -65,8 +65,7 @@ pipeline {
                 color: "good",
                 message: """\
                     SUCCESS ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, \
-                    Took: ${currentBuild.durationString.replace(
+                    v${TAG_HASH}, Took: ${currentBuild.durationString.replace(
                         ' and counting', ''
                     )} (<${env.BUILD_URL}|Open>)
                 """.stripIndent()
@@ -77,8 +76,7 @@ pipeline {
                 color: "danger",
                 message: """\
                     FAILURE ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, \
-                    Took: ${currentBuild.durationString.replace(
+                    v${TAG_HASH}, Took: ${currentBuild.durationString.replace(
                         ' and counting', ''
                     )} (<${env.BUILD_URL}|Open>)
                 """.stripIndent()
@@ -161,7 +159,7 @@ def parallelBuild(module) {
                 slackSend(
                     message: """\
                         STARTED PARALLEL ${env.JOB_NAME}.${module} 
-                        #${env.BUILD_NUMBER}, v${p_TAG_HASH} (<${env.BUILD_URL}|Open>)"
+                        #${env.BUILD_NUMBER}, v${p_TAG_HASH} (<${env.BUILD_URL}|Open>)
                      """.stripIndent()
                 )
                 sh ("""make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} build push""")
