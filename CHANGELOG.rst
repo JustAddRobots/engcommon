@@ -1,7 +1,38 @@
 Changelog
 =========
 
-0.1.1 (2020-11-15)
+0.1.4 (2020-11-20)
+------------------
+- Stage: Removed extra whitespace from slackSend. (0754788) [JustAddRobots]
+- Stage: Cleaned up Jenkinsfile after first successful build. (35323b2) [JustAddRobots]
+- Stage: Added failFast for parallel builds. (4550189) [JustAddRobots]
+- Stage: Fixed slackSend post. (87f3b31) [JustAddRobots]
+- Stage: Fixed continuation char, added post success/failure. (9377ff2) [JustAddRobots]
+- Stage: Fixed syntax. (e271f02) [JustAddRobots]
+- Stage: Fixed typo. (02bcd4a) [JustAddRobots]
+- Stage: Removed 'steps' directive. (6d2c4f6) [JustAddRobots]
+- Stage: Fixed syntax. (67e398d) [JustAddRobots]
+- Stage: Fixed syntax. (39c2ac6) [JustAddRobots]
+- Stage: Fixed syntax. (32f3f91) [JustAddRobots]
+- Stage: Changed 'master' to 'main' (586c73a) [JustAddRobots]
+- Stage: Fixed typo. (a439dbb) [JustAddRobots]
+- Stage: Fixed GitSCM plugin credentialsID sytax. (7c77c6d) [JustAddRobots]
+- Stage: Fixed syntax. (4c4e694) [JustAddRobots]
+- Stage: Fixed syntax. (694ecff) [JustAddRobots]
+- Stage: Fixed syntax. (33947ec) [JustAddRobots]
+- Stage: Fixed syntax. (973d610) [JustAddRobots]
+- Stage: Fixed parallel syntax. (a675377) [JustAddRobots]
+- Stage: Fixed parallel build syntax. (a1e8522) [JustAddRobots]
+- Stage: Fixed syntax error. (81e9a1a) [JustAddRobots]
+- Stage: Fixed syntax errors. (920a4c7) [JustAddRobots]
+- Stage: (2e2a368) [JustAddRobots]
+- Stage: Updated Jenkinsfile for parallel pipelines. (286cce0) [JustAddRobots]
+- Stage: Fixed syntax errors. (2b88d08) [JustAddRobots]
+- Stage: Fixed syntax error. (60eb871) [JustAddRobots]
+- Stage: Fixed syntax errors. (53ad836) [JustAddRobots]
+- LOAD-012: Updated Jenkins creds for new instance. (51fbdc7) [JustAddRobots]
+
+0.1.2 (2020-11-16)
 ------------------
 - ISSUE-007: Fixed flag/extension vocabulary. (12610ec) [JustAddRobots]
 - ISSUE-004: Added DMIdecode. (645cc3c) [JustAddRobots]
