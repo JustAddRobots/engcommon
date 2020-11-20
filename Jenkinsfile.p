@@ -36,21 +36,22 @@ pipeline {
                 echo "HASHSHORT: ${HASHSHORT}"
                 echo "TAG: ${TAG}"
                 echo "TAG_HASH: v${TAG_HASH}"
+                slackSend(
+                    message: """\
+                        STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
+                        v${TAG_HASH} 
+                        (<${env.BUILD_URL}|Open>)"
+                     """.stripIndent()
+                )
             }
-            slackSend(
-                message: """\
-                    STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
-                    v${TAG_HASH} 
-                    (<${env.BUILD_URL}|Open>)"
-                 """.stripIndent()
-            )
         }
         stage ("Start Parallel Dependent Pipelines") {
-            failFast true
-            steps {
-                parallel {
-                    parallelBuild("runxhpl")
-                }
+            parallel {
+                    stage ("Start Builds") {
+                        steps {
+                            parallelBuild("runxhpl")
+                        }
+                    }
             }
         }
     }
@@ -73,8 +74,7 @@ def parallelBuild(module) {
                [$class: "RelativeTargetDirectory", 
                 relativeTargetDir: "${module}"],
                [$class: "CleanBeforeCheckout"],
-            
-        ]], 
+        ], 
         submoduleCfg: [],
         userRemoteConfigs: [[
             credentialsID: "buildbot-${module}",
