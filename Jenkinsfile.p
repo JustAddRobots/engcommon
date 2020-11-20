@@ -45,6 +45,7 @@ pipeline {
             }
         }
         stage("Start Parallel Dependent Pipelines") {
+            failFast true
             parallel {
                 stage('Start Builds') {
                     steps {
