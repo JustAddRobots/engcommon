@@ -75,7 +75,7 @@ def parallelBuild(module) {
                [$class: "CleanBeforeCheckout"],
             
         ]], 
-        submoduleCfg: []
+        submoduleCfg: [],
         userRemoteConfigs: [[
             credentialsID: "buildbot-${module}",
             url: "git@github.com:JustAddRobots/${module}.git"
