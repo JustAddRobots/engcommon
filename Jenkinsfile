@@ -53,7 +53,7 @@ pipeline {
                             ],
                             [$class: "CleanBeforeCheckout"],
                         ],
-                        submoduleCfg: []
+                        submoduleCfg: [],
                         userRemoteConfigs: [[
                             credentialsID: "buildbot-runxhpl",
                             url: "git@github.com:JustAddRobots/runxhpl.git"
