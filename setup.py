@@ -15,7 +15,7 @@ setup(
     name = "engcommon",
     version = pkgversion,
     description = "Common Engineering Code",
-    url = "https://github.com/JustAddRobots/engcommon"
+    url = "https://github.com/JustAddRobots/engcommon",
     author = "Roderick Constance",
     author_email = "justaddrobots@icloud.com",
     license = "Private",
