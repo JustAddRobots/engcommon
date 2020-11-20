@@ -112,7 +112,6 @@ def parallelBuild(module) {
     }
     stage("${module}: Build Docker Container") {
         dir("${module}") {
-            steps {
                 script {
                     p_BRANCH = sh(
                         returnStdout: true, 
@@ -135,11 +134,9 @@ def parallelBuild(module) {
                      """.stripIndent()
                 )
                 sh ("""make -C docker/\$ARCH/el-7 SERVER=\$SERVER build push""")
-            }
         }
     }
     stage("${module}: Deploy to Kubernetes Cluster") {
-        steps {
             script {
                 IMG = """\
                     ${p_SERVER}/${module}:${p_TAG_HASH}
@@ -152,6 +149,5 @@ def parallelBuild(module) {
                     -n all -i ${IMG}
                 """.stripIndent()
             )
-        }
     }
 }
