@@ -47,11 +47,9 @@ pipeline {
         }
         stage ("Start Parallel Dependent Pipelines") {
             parallel {
-                    stage ("Start Builds") {
-                        steps {
-                            parallelBuild("runxhpl")
-                        }
-                    }
+                steps {
+                    parallelBuild("runxhpl")
+                }
             }
         }
     }
