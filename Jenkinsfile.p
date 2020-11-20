@@ -83,59 +83,61 @@ def parallelBuild(module) {
         ])
     }
     stage("${module}: Create Git Tag Hash") {
-        dir("${module}")
-        steps {
-            script {
-                p_HASHLONG = sh(
-                    returnStdout: true, 
-                    script: """\
-                        git log -1 --pretty=%H --no-merges
-                    """.stripIndent()
-                ).trim()
-                p_HASHSHORT = sh(
-                    returnStdout: true, 
-                    script: """\
-                        git log -1 --pretty=%h --no-merges
-                    """.stripIndent()
-                ).trim()
-                p_TAG = sh(
-                    returnStdout: true, 
-                    script: 'git describe --tags --abbrev=0'
-                ).trim()
-                p_TAG_HASH = "${p_TAG}-${p_HASHSHORT}-${ARCH}"
+        dir("${module}") {
+            steps {
+                script {
+                    p_HASHLONG = sh(
+                        returnStdout: true, 
+                        script: """\
+                            git log -1 --pretty=%H --no-merges
+                        """.stripIndent()
+                    ).trim()
+                    p_HASHSHORT = sh(
+                        returnStdout: true, 
+                        script: """\
+                            git log -1 --pretty=%h --no-merges
+                        """.stripIndent()
+                    ).trim()
+                    p_TAG = sh(
+                        returnStdout: true, 
+                        script: 'git describe --tags --abbrev=0'
+                    ).trim()
+                    p_TAG_HASH = "${p_TAG}-${p_HASHSHORT}-${ARCH}"
+                }
+                echo "ARCH: ${env.ARCH}"
+                echo "HASHLONG: ${p_HASHLONG}"
+                echo "HASHSHORT: ${p_HASHSHORT}"
+                echo "TAG: ${p_TAG}"
+                echo "TAG_HASH: v${p_TAG_HASH}"
             }
-            echo "ARCH: ${env.ARCH}"
-            echo "HASHLONG: ${p_HASHLONG}"
-            echo "HASHSHORT: ${p_HASHSHORT}"
-            echo "TAG: ${p_TAG}"
-            echo "TAG_HASH: v${p_TAG_HASH}"
         }
     }
     stage("${module}: Build Docker Container") {
-        dir("${module}")
-        steps {
-            script {
-                p_BRANCH = sh(
-                    returnStdout: true, 
-                    script: """\
-                        git show-ref | 
-                        grep `git rev-parse HEAD` | 
-                        awk '{ print \$2 }' | 
-                        awk -F/ '{ print \$NF}'
-                    """.stripIndent()
-                ).trim()
-                p_SERVER = "hosaka.local:5000"
+        dir("${module}") {
+            steps {
+                script {
+                    p_BRANCH = sh(
+                        returnStdout: true, 
+                        script: """\
+                            git show-ref | 
+                            grep `git rev-parse HEAD` | 
+                            awk '{ print \$2 }' | 
+                            awk -F/ '{ print \$NF}'
+                        """.stripIndent()
+                    ).trim()
+                    p_SERVER = "hosaka.local:5000"
+                }
+                echo "BRANCH: ${p_BRANCH}"
+                echo "SERVER: ${p_SERVER}"
+                slackSend(
+                    message: """\
+                        STARTED PARALLEL ${env.JOB_NAME}.${module} 
+                        #${env.BUILD_NUMBER}, v${p_TAG_HASH} 
+                        (<${env.BUILD_URL}|Open>)"
+                     """.stripIndent()
+                )
+                sh ("""make -C docker/\$ARCH/el-7 SERVER=\$SERVER build push""")
             }
-            echo "BRANCH: ${p_BRANCH}"
-            echo "SERVER: ${p_SERVER}"
-            slackSend(
-                message: """\
-                    STARTED PARALLEL ${env.JOB_NAME}.${module} 
-                    #${env.BUILD_NUMBER}, v${p_TAG_HASH} 
-                    (<${env.BUILD_URL}|Open>)"
-                 """.stripIndent()
-            )
-            sh ("""make -C docker/\$ARCH/el-7 SERVER=\$SERVER build push""")
         }
     }
     stage("${module}: Deploy to Kubernetes Cluster") {
