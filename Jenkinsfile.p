@@ -77,7 +77,7 @@ def parallelBuild(module) {
             ], 
             submoduleCfg: [],
             userRemoteConfigs: [[
-                credentialsID: "buildbot-${module}",
+                credentialsID: "buildbot-runxhpl",
                 url: "git@github.com:JustAddRobots/${module}.git"
             ]]
         ])
