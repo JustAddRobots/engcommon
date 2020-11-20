@@ -83,8 +83,8 @@ def parallelBuild(module) {
         ])
     }
     stage("${module}: Create Git Tag Hash") {
-        dir("${module}") {
-            steps {
+        steps {
+            dir("${module}") {
                 script {
                     p_HASHLONG = sh(
                         returnStdout: true, 
