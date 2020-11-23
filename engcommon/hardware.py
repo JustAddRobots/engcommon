@@ -6,6 +6,7 @@ about hardware or performing tasks on hardware, firmware, DMI, devices, etc.
 """
 
 import logging
+import re
 
 from . import command
 from . import testvar
@@ -144,15 +145,7 @@ def get_cpu_core_count_lscpu():
     Returns:
         count (int): core count.
     """
-    cmd = "{0}".format(CONSTANTS().CMD_LSCPU)
-    dict_ = command.get_shell_cmd(cmd)
-    stdout = dict_["stdout"]
-    lscpu = {}
-    for line in stdout.splitlines():
-        if line:
-            k = (line.split(":")[0]).strip()
-            v = (line.split(":")[1]).strip()
-            lscpu[k] = v
+    lscpu = get_lscpu()
     core_count = int(lscpu["Socket(s)"]) * int(lscpu["Core(s) per socket"])
     return core_count
 
@@ -160,6 +153,29 @@ def get_cpu_core_count_lscpu():
 def get_cpu_core_count():
     """Get total non-virtualised cpu cores."""
     return get_cpu_core_count_lscpu()
+
+
+def get_lscpu():
+    """Get lscpu info as key/value pairs
+    Ex: 
+        lscpu["Vendor ID"] is the CPU vendor.
+
+    Args:
+        None
+
+    Returns:
+        lscpu (dict): lscpu information.
+    """
+    lscpu = {}
+    cmd = "{0}".format(CONSTANTS().CMD_LSCPU)
+    dict_ = command.get_shell_cmd(cmd)
+    stdout = dict_["stdout"]
+    for line in stdout.splitlines():
+        if line:
+            k = (line.split(":")[0]).strip()
+            v = (line.split(":")[1]).strip()
+            lscpu[k] = v
+    return lscpu
 
 
 def get_meminfo():
@@ -200,7 +216,7 @@ def get_meminfo():
 def get_dmidecode():
     """Get dmidecode.
 
-    Get DMI info keyed by record name (e.g.  'BIOS Information',
+    Get DMI info in key/value pairs by record name (e.g.  'BIOS Information',
     'System Information', 'Chassis Information').
 
     Args:
@@ -224,8 +240,40 @@ def get_dmidecode():
     return dmi
 
 
-def clear_sel():
-    """Clear SEL."""
-    cmd = "{0} sel clear".format(CONSTANTS().CMD_IPMITOOL)
-    command.call_shell_cmd(cmd)
-    return None
+def get_uuid():
+    """Get UUID.
+
+    Args:
+        None
+
+    Returns:
+        uuid (str): UUID.
+    """
+    uuid = ""
+    arch = get_arch()
+    if arch not in ["ppc64le"]:
+        cmd = '{0}'.format(CONSTANTS().CMD_DMIDECODE)
+        dict_ = command.get_shell_cmd(cmd)
+        stdout = dict_["stdout"]
+        match = re.search('UUID: (.*)', stdout)
+        if match:
+            uuid = match.group(1)
+        testvar.check_null(uuid)
+    return uuid
+
+
+def get_serial_num():
+    """Get serial number.
+
+    Args:
+        None
+
+    Returns:
+        serial (str): serial number.
+    """
+    serial_num = ""
+    cmd = "{0} -s system-serial-number".format(CONSTANTS().CMD_DMIDECODE)
+    dict_ = command.get_shell_cmd(cmd)
+    serial_num = dict_["stdout"].strip()
+    testvar.check_null(serial_num)
+    return serial_num
