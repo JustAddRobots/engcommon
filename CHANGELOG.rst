@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.2.0 (2020-11-23)
+------------------
+- ISSUE-016: Added hardware functions for uuid and serial_num. (df72f20) [JustAddRobots]
+
 0.1.4 (2020-11-20)
 ------------------
 - Stage: Removed extra whitespace from slackSend. (0754788) [JustAddRobots]
