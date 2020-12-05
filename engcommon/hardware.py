@@ -157,7 +157,7 @@ def get_cpu_core_count():
 
 def get_lscpu():
     """Get lscpu info as key/value pairs
-    Ex: 
+    Ex:
         lscpu["Vendor ID"] is the CPU vendor.
 
     Args:

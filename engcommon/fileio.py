@@ -5,6 +5,7 @@ This module contains file I/O functions.
 """
 
 import logging
+from pathlib import Path
 
 from . import testvar
 
@@ -25,13 +26,30 @@ def write_file(filename, content, mode):
     Raises:
         OSError: Error opening file.
     """
+#     try:
+#         f = open(filename, mode)
+#     except OSError:
+#         logger.error("File Open Error")
+#         logger.debug(testvar.get_debug(filename))
+#         raise
+#     else:
+#         f.write(content)
+#         f.close()
+#     return None
+
     try:
-        f = open(filename, mode)
+        Path(filename).parent.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        logger.error("Parent mkdir  Error")
+        logger.debug(testvar.get_debug(filename))
+        raise
+
+    try:
+        with open(filename, mode) as f:
+            f.write(content)
+            f.close()
     except OSError:
         logger.error("File Open Error")
         logger.debug(testvar.get_debug(filename))
         raise
-    else:
-        f.write(content)
-        f.close()
     return None
