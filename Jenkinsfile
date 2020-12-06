@@ -164,7 +164,7 @@ def parallelBuild(module) {
                 )
                 sh ("""\
                         make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} \
-                        ENGCOMMON_BRANCH=${env.BRANCH_NAME} build push
+                        ENGCOMMON_BRANCH=${HASHSHORT} build push
                 """)
         }
     }
