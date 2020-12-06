@@ -4,8 +4,6 @@
 // 'engcommon' package is tagged for release (or release candidate).
 // Add additional package names in the 'parallelBuild' section.
 
-import groovy.transform.Field
-
 def HASHLONG
 def HASHSHORT
 def TAG
@@ -30,7 +28,6 @@ pipeline {
                         returnStdout: true, 
                         script: 'git log -1 --pretty=%h --no-merges'
                     ).trim()
-                    @Field def HASHSHORT_FIELD = ${HASHSHORT}
                     TAG = sh(
                         returnStdout: true, 
                         script: 'git describe --tags --abbrev=0'
@@ -167,7 +164,7 @@ def parallelBuild(module) {
                 )
                 sh ("""\
                         make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} \
-                        ENGCOMMON_BRANCH=${HASHSHORT_FIELD} build push
+                        ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
                 """)
         }
     }
