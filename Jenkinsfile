@@ -15,6 +15,7 @@ pipeline {
     environment {
         ARCH = sh(returnStdout: true, script: 'uname -m').trim()
         KUBECONFIG = '/opt/kube/config'
+        HASHSHORT = ''
     }
     stages {
         stage('Create Git Tag Hash') {
