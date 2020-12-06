@@ -162,7 +162,10 @@ def parallelBuild(module) {
                         #${env.BUILD_NUMBER}, v${p_TAG_HASH} (<${env.BUILD_URL}|Open>)
                      """.stripIndent()
                 )
-                sh ("""make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} build push""")
+                sh ("""\
+                        make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} \
+                        ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
+                """)
         }
     }
     stage("${module}: Deploy to Kubernetes Cluster") {

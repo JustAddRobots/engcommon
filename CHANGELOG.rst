@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.3.0 (2020-12-06)
+------------------
+- Stage: Switched to Jenkins GIT_COMMIT env var. (2bb2920) [JustAddRobots]
+- Stage: Added HASHSHORT_FIELD. (9d078a0) [JustAddRobots]
+- Stage: Added HASHSHORT as env var. (0d3b824) [JustAddRobots]
+- Stage: Changed ENGCOMMON_BRANCH SELECTOR from branch to hash. (ea6d0ea) [JustAddRobots]
+- Stage: Added ENGCOMMON_BRANCH selector. (df6c8e1) [JustAddRobots]
+- ISSUE-019: Added more unit tests. (3a24db3) [JustAddRobots]
+- ISSUE-019: Removed unnecessary __init__.py from unit tests. (82c95d8) [JustAddRobots]
+- ISSUE-019: Added unit tests, pytest to pre-commit. (1abb5bd) [JustAddRobots]
+
 0.2.0 (2020-11-23)
 ------------------
 - ISSUE-016: Added hardware functions for uuid and serial_num. (df72f20) [JustAddRobots]

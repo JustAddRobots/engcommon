@@ -45,6 +45,7 @@ class CLI:
             project_name (str): Project name seen by installer.
             args (dict): Command line arguments.
                 {
+                    log_id (str): Override random runtime ID with this.
                     prefix (str): Prefix for log directory.
                     debug (bool): Enable/disable debug mode.
                 }
@@ -58,7 +59,7 @@ class CLI:
             prefix = self._args["prefix"],
             suffix = self._log_id,
         )
-        os.makedirs(self._logdir)
+        os.makedirs(self._logdir, exist_ok=True)
         loggers = log.get_std_logger(
             self._project_name,
             self._args["debug"],
