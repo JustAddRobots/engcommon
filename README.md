@@ -28,7 +28,7 @@ in any other environment.** There is **no support** for this project.
 
 ## Usage
 
-### Common hardware querying:
+### Common hardware querying
 
 ```
 >>> from engcommon import hardware
@@ -63,10 +63,9 @@ BIOS Information
                 BIOS is upgradeable
                 Targeted content distribution is supported
                 UEFI is supported
-
 ```
 
-### Misc shell commands:
+### Misc shell commands
 
 ```
 >>> from engcommon import command
@@ -79,7 +78,7 @@ reboot   system boot  3.10.0-1160.6.1. Sat Nov 28 23:23 - 14:53 (7+15:29)
 reboot   system boot  3.10.0-1160.2.2. Tue Nov 17 15:57 - 22:18 (11+06:20)
 ```
 
-###Logging:
+### Logging
 
 ```
 >>> from engcommon import clihelper
