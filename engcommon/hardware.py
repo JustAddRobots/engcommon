@@ -219,6 +219,8 @@ def get_dmidecode():
     Get DMI info in key/value pairs by record name (e.g.  'BIOS Information',
     'System Information', 'Chassis Information').
 
+    NOTE: May require 'sudo'.
+
     Args:
         None
 
@@ -243,6 +245,8 @@ def get_dmidecode():
 def get_uuid():
     """Get UUID.
 
+    NOTE: May require 'sudo'.
+
     Args:
         None
 
@@ -264,6 +268,8 @@ def get_uuid():
 
 def get_serial_num():
     """Get serial number.
+
+    NOTE: May require 'sudo'.
 
     Args:
         None
