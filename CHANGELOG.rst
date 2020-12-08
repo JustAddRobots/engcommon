@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.4.0 (2020-12-08)
+------------------
+- ISSUE-022: Added misc fixes. (0df9859) [JustAddRobots]
+- ISSUE-023: Fixed typo in README. (54a0117) [JustAddRobots]
+- ISSUE-023: Added LICENSE, update README. (d7b318a) [JustAddRobots]
+
 0.3.0 (2020-12-06)
 ------------------
 - Stage: Switched to Jenkins GIT_COMMIT env var. (2bb2920) [JustAddRobots]
