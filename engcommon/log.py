@@ -21,10 +21,10 @@ def get_logdir(module_name, **kwargs):
     Create unique logdir based on timestamp and module name.
 
     Default: /tmp/logs/[hostname]/[module_name].[timestamp]
-    Ex:      /tmp/logs/ribeye/runxhpl.2020.06.15-134944
+    Ex:      /tmp/logs/hosaka/runxhpl.2020.06.15-134944
 
     Example of optional **kwargs using 'logid' as suffix:
-    /tmp/misc/logs/ribeye/favorable-wire/2020.06.15-134944
+    /tmp/misc/logs/hosaka/favorable-wire/2020.06.15-134944
 
     Args:
         module_name (str): Module/package subdir for logs.

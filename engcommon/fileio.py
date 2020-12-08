@@ -26,16 +26,6 @@ def write_file(filename, content, mode):
     Raises:
         OSError: Error opening file.
     """
-#     try:
-#         f = open(filename, mode)
-#     except OSError:
-#         logger.error("File Open Error")
-#         logger.debug(testvar.get_debug(filename))
-#         raise
-#     else:
-#         f.write(content)
-#         f.close()
-#     return None
 
     try:
         Path(filename).parent.mkdir(parents=True, exist_ok=True)
