@@ -70,7 +70,7 @@ def get_random_phrase_probability(**kwargs):
         POS_order (list): Part-of-speech order.
 
     Returns:
-        prob (float) = Probability of duplicate phrase being selected.
+        prob (float) = Probability of phrase being selected.
     """
     min_length = int(kwargs.setdefault('min_length', 2))
     max_length = int(kwargs.setdefault('max_length', 8))
