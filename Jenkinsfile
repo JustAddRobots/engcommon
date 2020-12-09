@@ -16,7 +16,6 @@ def KUBECONFIG
 // Requires "Pipeline Utility Steps" plugin
 def loadProperties() {
     def workspace = pwd()
-    echo "Workspace: ${workspace}"
     props = readProperties file: "${workspace}/engcommon/builder.ini"
     DOCKERHOST = props["dockerhost"]
     KUBECONFIG = props["kubeconfig"]
@@ -26,7 +25,6 @@ pipeline {
     agent any
     environment {
         ARCH = sh(returnStdout: true, script: 'uname -m').trim()
-        //KUBECONFIG = '/opt/kube/config'
     }
     stages {
         stage('Create Git Tag Hash') {
@@ -105,7 +103,6 @@ def parallelBuild(module) {
     def p_TAG
     def p_TAG_HASH
     def p_BRANCH
-    def p_SERVER
 
     // always checkout the 'main' branch for dependents
     stage("${module}: Checkout") {
@@ -165,12 +162,9 @@ def parallelBuild(module) {
                             awk -F/ '{ print \$NF}'
                         """.stripIndent()
                     ).trim()
-                    //p_SERVER = "hosaka.local:5000"
-                    //p_SERVER = ${DOCKERHOST}
                 }
                 echo "BRANCH: ${p_BRANCH}"
                 echo "DOCKERHOST: ${DOCKERHOST}"
-                //echo "SERVER: ${p_SERVER}"
                 slackSend(
                     message: """\
                         STARTED PARALLEL ${env.JOB_NAME}.${module} 
@@ -179,6 +173,7 @@ def parallelBuild(module) {
                 )
                 sh ("""\
                         make -C docker/${ARCH}/el-7 SERVER=${DOCKERHOST} \
+                        DOCKERHOST=${DOCKERHOST} \
                         ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
                 """)
         }
