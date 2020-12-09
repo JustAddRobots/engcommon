@@ -10,11 +10,21 @@ def TAG
 def TAG_HASH
 def BRANCH
 
+def DOCKERHOST
+def KUBECONFIG
+
+// Requires "Pipeline Utility Steps" plugin
+def loadProperties() {
+    def workspace = pwd()
+    props = readProperties file: "${workspace}/engcommon/builder.ini"
+    DOCKERHOST = props["dockerhost"]
+    KUBECONFIG = props["kubeconfig"]
+}
+    
 pipeline {
     agent any
     environment {
         ARCH = sh(returnStdout: true, script: 'uname -m').trim()
-        KUBECONFIG = '/opt/kube/config'
     }
     stages {
         stage('Create Git Tag Hash') {
@@ -40,6 +50,7 @@ pipeline {
                 echo "HASHSHORT: ${HASHSHORT}"
                 echo "TAG: ${TAG}"
                 echo "TAG_HASH: v${TAG_HASH}"
+                loadProperties()
                 slackSend(
                     message: """\
                         STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
@@ -92,7 +103,6 @@ def parallelBuild(module) {
     def p_TAG
     def p_TAG_HASH
     def p_BRANCH
-    def p_SERVER
 
     // always checkout the 'main' branch for dependents
     stage("${module}: Checkout") {
@@ -152,10 +162,9 @@ def parallelBuild(module) {
                             awk -F/ '{ print \$NF}'
                         """.stripIndent()
                     ).trim()
-                    p_SERVER = "hosaka.local:5000"
                 }
                 echo "BRANCH: ${p_BRANCH}"
-                echo "SERVER: ${p_SERVER}"
+                echo "DOCKERHOST: ${DOCKERHOST}"
                 slackSend(
                     message: """\
                         STARTED PARALLEL ${env.JOB_NAME}.${module} 
@@ -163,7 +172,8 @@ def parallelBuild(module) {
                      """.stripIndent()
                 )
                 sh ("""\
-                        make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} \
+                        make -C docker/${ARCH}/el-7 SERVER=${DOCKERHOST} \
+                        DOCKERHOST=${DOCKERHOST} \
                         ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
                 """)
         }
@@ -171,7 +181,7 @@ def parallelBuild(module) {
     stage("${module}: Deploy to Kubernetes Cluster") {
             script {
                 IMG = """\
-                    ${p_SERVER}/${module}:${p_TAG_HASH}
+                    ${DOCKERHOST}/${module}:${p_TAG_HASH}
                 """
             }
             sh ("""\

@@ -2,6 +2,7 @@
 
 import pytest
 from engcommon.clihelper import CLI
+from engcommon.ini import INIConfig
 
 
 @pytest.fixture(scope="session")
@@ -23,3 +24,8 @@ def mycli():
         "debug": True
     }
     return CLI("engcommon", args)
+
+
+@pytest.fixture(scope="session")
+def myini():
+    return INIConfig()
