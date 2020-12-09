@@ -18,7 +18,7 @@ def loadProperties() {
     def workspace = pwd()
     echo "Workspace: ${workspace}"
     props = readProperties file: "${workspace}/engcommon/builder.ini"
-    DOCKERHOST = props["buildhost"]
+    DOCKERHOST = props["dockerhost"]
     KUBECONFIG = props["kubeconfig"]
 }
     
