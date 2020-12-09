@@ -15,7 +15,9 @@ def KUBECONFIG
 
 // Requires "Pipeline Utility Steps" plugin
 node {
-    props = readProperties file: "builder.ini"
+    def workspace = pwd()
+    echo "Workspace: ${workspace}"
+    props = readProperties file: "${workspace}/engcommon/builder.ini"
     DOCKERHOST = props["buildhost"]
     KUBECONFIG = props["kubeconfig"]
 }
