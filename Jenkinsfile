@@ -10,11 +10,21 @@ def TAG
 def TAG_HASH
 def BRANCH
 
+def DOCKERHOST
+def KUBECONFIG
+
+// Requires "Pipeline Utility Steps" plugin
+node {
+    props = readProperties file: "builder.ini"
+    DOCKERHOST = props["buildhost"]
+    KUBECONFIG = props["kubeconfig"]
+}
+    
 pipeline {
     agent any
     environment {
         ARCH = sh(returnStdout: true, script: 'uname -m').trim()
-        KUBECONFIG = '/opt/kube/config'
+        //KUBECONFIG = '/opt/kube/config'
     }
     stages {
         stage('Create Git Tag Hash') {
@@ -152,10 +162,12 @@ def parallelBuild(module) {
                             awk -F/ '{ print \$NF}'
                         """.stripIndent()
                     ).trim()
-                    p_SERVER = "hosaka.local:5000"
+                    //p_SERVER = "hosaka.local:5000"
+                    //p_SERVER = ${DOCKERHOST}
                 }
                 echo "BRANCH: ${p_BRANCH}"
-                echo "SERVER: ${p_SERVER}"
+                echo "DOCKERHOST: ${DOCKERHOST}"
+                //echo "SERVER: ${p_SERVER}"
                 slackSend(
                     message: """\
                         STARTED PARALLEL ${env.JOB_NAME}.${module} 
@@ -163,7 +175,7 @@ def parallelBuild(module) {
                      """.stripIndent()
                 )
                 sh ("""\
-                        make -C docker/${ARCH}/el-7 SERVER=${p_SERVER} \
+                        make -C docker/${ARCH}/el-7 SERVER=${DOCKERHOST} \
                         ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
                 """)
         }
@@ -171,7 +183,7 @@ def parallelBuild(module) {
     stage("${module}: Deploy to Kubernetes Cluster") {
             script {
                 IMG = """\
-                    ${p_SERVER}/${module}:${p_TAG_HASH}
+                    ${DOCKERHOST}/${module}:${p_TAG_HASH}
                 """
             }
             sh ("""\
