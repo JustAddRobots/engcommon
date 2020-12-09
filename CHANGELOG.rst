@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.5.0 (2020-12-09)
+------------------
+- Stage: Added both DOCKERHOST and SERVER for runxhpl INI integration. (4007d62) [JustAddRobots]
+- Stage: Fixed dockerhost/buildhost transposition. (69ac161) [JustAddRobots]
+- Stage: Troubleshooting Jenkins workspace/loadProperties() (6b1121f) [JustAddRobots]
+- Stage: Added loadProperties() to first build stage. (940ca33) [JustAddRobots]
+- Stage: Troubleshooting INI file location in Jenkins workspace. (660fb5d) [JustAddRobots]
+- ISSUE-014: Removed "" from INI file. (f33d8f3) [JustAddRobots]
+- ISSUE-014: Added INI config file. (81a4b58) [JustAddRobots]
+
 0.4.0 (2020-12-08)
 ------------------
 - ISSUE-022: Added misc fixes. (0df9859) [JustAddRobots]
