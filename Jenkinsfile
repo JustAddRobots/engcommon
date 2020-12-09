@@ -14,12 +14,14 @@ def DOCKERHOST
 def KUBECONFIG
 
 // Requires "Pipeline Utility Steps" plugin
-node {
-    def workspace = pwd()
-    echo "Workspace: ${workspace}"
-    props = readProperties file: "${workspace}/engcommon/builder.ini"
-    DOCKERHOST = props["buildhost"]
-    KUBECONFIG = props["kubeconfig"]
+def loadProperties() {
+    node {
+        def workspace = pwd()
+        echo "Workspace: ${workspace}"
+        props = readProperties file: "${workspace}/engcommon/builder.ini"
+        DOCKERHOST = props["buildhost"]
+        KUBECONFIG = props["kubeconfig"]
+    }
 }
     
 pipeline {
@@ -52,6 +54,7 @@ pipeline {
                 echo "HASHSHORT: ${HASHSHORT}"
                 echo "TAG: ${TAG}"
                 echo "TAG_HASH: v${TAG_HASH}"
+                loadProperties()
                 slackSend(
                     message: """\
                         STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
