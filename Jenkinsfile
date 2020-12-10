@@ -13,15 +13,11 @@ def BRANCH
 def DOCKERHOST
 def KUBECONFIG
 
-// Requires "Pipeline Utility Steps" plugin
+// Requires "Pipeline Utility Steps" and "httpRequest" plugins
 def loadProperties() {
-    //def workspace = pwd()
-    //props = readProperties file: "${workspace}/engcommon/builder.ini"
     def resp = httpRequest "http://hosaka.local/ini/builder.json"
     def content = resp.getContent()
-    echo "${content}"
     def props = readJSON text: "${content}"
-    echo "${props}"    
     env.DOCKERHOST = props["dockerhost"]
     env.KUBECONFIG = props["kubeconfig"]
 }
