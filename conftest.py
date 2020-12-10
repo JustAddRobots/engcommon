@@ -28,4 +28,4 @@ def mycli():
 
 @pytest.fixture(scope="session")
 def myini():
-    return INIConfig()
+    return INIConfig("http://hosaka.local/ini/builder.json")

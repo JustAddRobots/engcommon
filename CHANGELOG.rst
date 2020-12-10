@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.1 (2020-12-10)
+------------------
+- Stage: Cleaned up Jenkinsfile. (d9e8b6a) [JustAddRobots]
+- Stage: Updated Jenkinsfile for JSON INI URL. (3edb1b3) [JustAddRobots]
+- ISSUE-014: Changed INI format to JSON. (84b1802) [JustAddRobots]
+
 0.5.0 (2020-12-09)
 ------------------
 - Stage: Added both DOCKERHOST and SERVER for runxhpl INI integration. (4007d62) [JustAddRobots]
