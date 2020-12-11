@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import pytest
+
 from engcommon.clihelper import CLI
+from engcommon.constants import _const as CONSTANTS
 from engcommon.ini import INIConfig
 
 
@@ -28,4 +30,4 @@ def mycli():
 
 @pytest.fixture(scope="session")
 def myini():
-    return INIConfig("http://hosaka.local/ini/builder.json")
+    return INIConfig(CONSTANTS().INI_URL)
