@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.5.2 (2020-12-11)
+------------------
+- ISSUE-014: Updated to use INI_URL constant. (9bbc99e) [JustAddRobots]
+
 0.5.1 (2020-12-10)
 ------------------
 - Stage: Cleaned up Jenkinsfile. (d9e8b6a) [JustAddRobots]

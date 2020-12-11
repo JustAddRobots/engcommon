@@ -17,6 +17,10 @@ def constant(f):
 
 class _const(object):
 
+    @constant
+    def INI_URL():
+        return "http://hosaka.local/ini/builder.json"
+
     # === START XHPL CONFIG===
 
     @constant
