@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.6.2 (2020-12-14)
+------------------
+- ISSUE-033: Fixed typo. (8435e0c) [JustAddRobots]
+
 0.6.1 (2020-12-14)
 ------------------
 - ISSUE-033: Fixed env var definitions. (0169f5e) [JustAddRobots]
