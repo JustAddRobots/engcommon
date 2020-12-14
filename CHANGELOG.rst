@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.6.1 (2020-12-14)
+------------------
+- ISSUE-033: Fixed env var definitions. (0169f5e) [JustAddRobots]
+
 0.6.0 (2020-12-14)
 ------------------
 - Stage: Fixed delete tags stage indentation. (149e6a2) [JustAddRobots]
