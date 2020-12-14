@@ -39,19 +39,19 @@ pipeline {
         stage('Create Git Tag Hash') {
             steps {
                 script {
-                    HASHLONG = sh(
+                    env.HASHLONG = sh(
                         returnStdout: true, 
                         script: 'git log -1 --pretty=%H --no-merges'
                     ).trim()
-                    HASHSHORT = sh(
+                    env.HASHSHORT = sh(
                         returnStdout: true, 
                         script: 'git log -1 --pretty=%h --no-merges'
                     ).trim()
-                    TAG = sh(
+                    env.TAG = sh(
                         returnStdout: true, 
                         script: 'git describe --tags --abbrev=0'
                     ).trim()
-                    TAG_HASH = "${env.TAG}-${env.HASHSHORT}-${env.ARCH}"
+                    env.TAG_HASH = "${env.TAG}-${env.HASHSHORT}-${env.ARCH}"
                 }
                 echo "ARCH: ${env.ARCH}"
                 echo "COMMIT: ${env.GIT_COMMIT}"
