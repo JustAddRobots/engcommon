@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.6.0 (2020-12-14)
+------------------
+- Stage: Fixed delete tags stage indentation. (149e6a2) [JustAddRobots]
+- ISSUE-033: Added delete RC tags to pipeline, misc docs. (0ceb258) [JustAddRobots]
+
 0.5.2 (2020-12-11)
 ------------------
 - ISSUE-014: Updated to use INI_URL constant. (9bbc99e) [JustAddRobots]
