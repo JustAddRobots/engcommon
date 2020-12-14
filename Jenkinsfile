@@ -8,6 +8,7 @@ def HASHLONG
 def HASHSHORT
 def TAG
 def TAG_HASH
+def MMP
 def BRANCH
 
 def DOCKERHOST
@@ -17,7 +18,9 @@ def KUBECONFIG
 def loadProperties() {
     def resp = httpRequest "http://hosaka.local/ini/builder.json"
     def content = resp.getContent()
+    echo "${content}"
     def props = readJSON text: "${content}"
+    echo "${props}"
     env.DOCKERHOST = props["dockerhost"]
     env.KUBECONFIG = props["kubeconfig"]
 }
@@ -48,18 +51,18 @@ pipeline {
                         returnStdout: true, 
                         script: 'git describe --tags --abbrev=0'
                     ).trim()
-                    TAG_HASH = "${TAG}-${HASHSHORT}-${ARCH}"
+                    TAG_HASH = "${env.TAG}-${env.HASHSHORT}-${env.ARCH}"
                 }
                 echo "ARCH: ${env.ARCH}"
                 echo "COMMIT: ${env.GIT_COMMIT}"
-                echo "HASHLONG: ${HASHLONG}"
-                echo "HASHSHORT: ${HASHSHORT}"
-                echo "TAG: ${TAG}"
-                echo "TAG_HASH: v${TAG_HASH}"
+                echo "HASHLONG: ${env.HASHLONG}"
+                echo "HASHSHORT: ${env.HASHSHORT}"
+                echo "TAG: ${env.TAG}"
+                echo "TAG_HASH: v${env.TAG_HASH}"
                 slackSend(
                     message: """\
                         STARTED ${env.JOB_NAME} #${env.BUILD_NUMBER}, 
-                        v${TAG_HASH} (<${env.BUILD_URL}|Open>)
+                        v${env.TAG_HASH} (<${env.BUILD_URL}|Open>)
                      """.stripIndent()
                 )
             }
@@ -74,6 +77,26 @@ pipeline {
                 }
             }
         }
+        stage('Delete RC Tags') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    (mmp, _) = "${env.TAG}".tokenize("-") // Major Minor Patch
+                    env.MMP = "${mmp}"
+                    echo "MMP: ${env.MMP}"
+                    withCredentials([usernamePassword(
+                        credentialsId: 'github-runxhpl-multibranch-stage',
+                        passwordVariable: 'GIT_PASSWORD',
+                        usernameVariable: 'GIT_USERNAME'
+                    )]){
+                        sh("""git push --delete https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/JustAddRobots/engcommon.git \$(git tag -l "${env.MMP}-rc*")""")
+                        sh("""git tag -d \$(git tag -l "${env.MMP}-rc*")""")
+                    }
+                }
+            }
+        }
     }
     post {
         success {
@@ -81,7 +104,7 @@ pipeline {
                 color: "good",
                 message: """\
                     SUCCESS ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, Took: ${currentBuild.durationString.replace(
+                    v${env.TAG_HASH}, Took: ${currentBuild.durationString.replace(
                         ' and counting', ''
                     )} (<${env.BUILD_URL}|Open>)
                 """.stripIndent()
@@ -92,7 +115,7 @@ pipeline {
                 color: "danger",
                 message: """\
                     FAILURE ${env.JOB_NAME} #${env.BUILD_NUMBER},
-                    v${TAG_HASH}, Took: ${currentBuild.durationString.replace(
+                    v${env.TAG_HASH}, Took: ${currentBuild.durationString.replace(
                         ' and counting', ''
                     )} (<${env.BUILD_URL}|Open>)
                 """.stripIndent()
@@ -146,7 +169,7 @@ def parallelBuild(module) {
                         returnStdout: true, 
                         script: 'git describe --tags --abbrev=0'
                     ).trim()
-                    p_TAG_HASH = "${p_TAG}-${p_HASHSHORT}-${ARCH}"
+                    p_TAG_HASH = "${p_TAG}-${p_HASHSHORT}-${env.ARCH}"
                 }
                 echo "ARCH: ${env.ARCH}"
                 echo "HASHLONG: ${p_HASHLONG}"
@@ -177,7 +200,7 @@ def parallelBuild(module) {
                      """.stripIndent()
                 )
                 sh ("""\
-                        make -C docker/${ARCH}/el-7 SERVER=${env.DOCKERHOST} \
+                        make -C docker/${env.ARCH}/el-7 SERVER=${env.DOCKERHOST} \
                         DOCKERHOST=${env.DOCKERHOST} \
                         ENGCOMMON_BRANCH=${env.GIT_COMMIT} build push
                 """)

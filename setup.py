@@ -2,11 +2,6 @@ import os
 from setuptools import setup
 
 
-def readme():
-    with open("README.rst") as f:
-        return f.read()
-
-
 with open(os.path.dirname(__file__) + "/VERSION") as f:
     pkgversion = f.read().strip()
 
