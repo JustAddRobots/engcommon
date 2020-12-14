@@ -7,8 +7,9 @@ log and standardise output across different packages. Its meant to be used as a
 dependency for other packages or for quick querying while inside the Python
 interpreter.
 
-It is part of a working proof-of-concept CI/CD workflow that implements XHPL as a
-stress-test for baremetal HPC hardware.
+It is part of, [https://github.com/JustAddRobots/deployxhpl](deployxhpl), a working 
+proof-of-concept CI/CD workflow that implements XHPL as a stress-test for baremetal HPC 
+hardware.
 
 It is built to run on *CentOS 7 Linux*. **There is no gaurantee this package will work
 in any other environment.** There is **no support** for this project.
