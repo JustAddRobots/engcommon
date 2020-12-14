@@ -77,23 +77,23 @@ pipeline {
                 }
             }
         }
-    }
-    stage('Delete RC Tags') {
-        when {
-            branch 'main'
-        }
-        steps {
-            script {
-                (mmp, _) = "${env.TAG}".tokenize("-") // Major Minor Patch
-                env.MMP = "${mmp}"
-                echo "MMP: ${env.MMP}"
-                withCredentials([usernamePassword(
-                    credentialsId: 'github-runxhpl-multibranch-stage',
-                    passwordVariable: 'GIT_PASSWORD',
-                    usernameVariable: 'GIT_USERNAME'
-                )]){
-                    sh("""git push --delete https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/JustAddRobots/engcommon.git \$(git tag -l "${env.MMP}-rc*")""")
-                    sh("""git tag -d \$(git tag -l "${env.MMP}-rc*")""")
+        stage('Delete RC Tags') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    (mmp, _) = "${env.TAG}".tokenize("-") // Major Minor Patch
+                    env.MMP = "${mmp}"
+                    echo "MMP: ${env.MMP}"
+                    withCredentials([usernamePassword(
+                        credentialsId: 'github-runxhpl-multibranch-stage',
+                        passwordVariable: 'GIT_PASSWORD',
+                        usernameVariable: 'GIT_USERNAME'
+                    )]){
+                        sh("""git push --delete https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/JustAddRobots/engcommon.git \$(git tag -l "${env.MMP}-rc*")""")
+                        sh("""git tag -d \$(git tag -l "${env.MMP}-rc*")""")
+                    }
                 }
             }
         }
