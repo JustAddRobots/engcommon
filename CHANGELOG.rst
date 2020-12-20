@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.6.3 (2020-12-20)
+------------------
+- ISSUE-042: Removed whitespace. (b97f9ab) [JustAddRobots]
+- ISSUE-042: Added installation notes. (677caf7) [JustAddRobots]
+
 0.6.2 (2020-12-14)
 ------------------
 - ISSUE-033: Fixed typo. (8435e0c) [JustAddRobots]
