@@ -24,8 +24,9 @@ in any other environment.** There is **no support** for this project.
 
 ## Installing
 
-
-
+```
+❯ python3 -m pip install git+https://github.com/JustAddRobots/engcommon.git
+```
 
 ## Usage
 
