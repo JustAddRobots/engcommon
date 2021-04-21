@@ -14,15 +14,19 @@ from . import error
 logger = logging.getLogger(__name__)
 
 
-def get_debug(var):
+def get_debug(var, **kwargs):
     """Get pprint of variable.
 
     Args:
         var (any):
 
+    **kwargs:
+        sort_dicts (bool): Sort dictionaries by key.
+
     Returns:
         var_pprint (PrettyPrinter): pprint of var.
     """
+    my_sort_dicts = kwargs.setdefault("sort_dicts", True)
     if isinstance(var, collections.Callable):
         attrs = var.__module__ + "." + var.__name__
     else:
@@ -30,7 +34,7 @@ def get_debug(var):
             attrs = vars(var)
         except TypeError:
             attrs = var
-    var_pprint = pprint.pformat(attrs, width = 160, compact = True)
+    var_pprint = pprint.pformat(attrs, width=160, compact=True, sort_dicts=my_sort_dicts)
     return var_pprint
 
 
