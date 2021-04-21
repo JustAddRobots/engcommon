@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.6.5 (2021-04-21)
+------------------
+- ISSUE-050: Changed module version/title output loglevel to DEBUG. (345f224) [JustAddRobots]
+
 0.6.4 (2021-04-21)
 ------------------
 - Stage: Updated for MacOS getopt. (137b6c3) [JustAddRobots]
