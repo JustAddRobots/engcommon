@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.6.4 (2021-04-21)
+------------------
+- Stage: Updated for MacOS getopt. (137b6c3) [JustAddRobots]
+- Stage: Fixed hashbang for bash env. (eeeb720) [JustAddRobots]
+- ISSUE-047: Added sort_dicts to get_debug() (95b8a9c) [JustAddRobots]
+
 0.6.3 (2020-12-20)
 ------------------
 - ISSUE-042: Removed whitespace. (b97f9ab) [JustAddRobots]
