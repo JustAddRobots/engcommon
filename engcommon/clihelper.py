@@ -158,7 +158,7 @@ class CLI:
             self._project_name,
             self._version,
         ))
-        logger.info(formattext.add_colour(module_title, "blue"))
+        logger.debug(formattext.add_colour(module_title, "blue"))
         third_party = self._get_third_party_list()
         versions = self._get_versions(third_party)
         for tool, ver in versions.items():
@@ -172,7 +172,7 @@ class CLI:
         return None
 
     def _print_logdir(self):
-        logger.info("LOGS: {0}".format(self.logdir))
+        logger.debug("LOGS: {0}".format(self.logdir))
         return None
 
     def print_logdir(self):
