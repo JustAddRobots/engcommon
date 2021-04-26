@@ -26,7 +26,7 @@ def get_debug(var, **kwargs):
     Returns:
         var_pprint (PrettyPrinter): pprint of var.
     """
-    my_sort_dicts = kwargs.setdefault("sort_dicts", True)
+    # my_sort_dicts = kwargs.setdefault("sort_dicts", True)  # Needs >= python-3.8
     if isinstance(var, collections.Callable):
         attrs = var.__module__ + "." + var.__name__
     else:
@@ -34,7 +34,8 @@ def get_debug(var, **kwargs):
             attrs = vars(var)
         except TypeError:
             attrs = var
-    var_pprint = pprint.pformat(attrs, width=160, compact=True, sort_dicts=my_sort_dicts)
+    # var_pprint = pprint.pformat(attrs, width=160, compact=True, sort_dicts=my_sort_dicts)
+    var_pprint = pprint.pformat(attrs, width=160, compact=True)
     return var_pprint
 
 
