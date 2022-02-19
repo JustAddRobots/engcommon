@@ -24,48 +24,60 @@ cat << EOF
 USAGE:
     $0  [ -h ]
     $0  [ -v ] [ -r ] ( -p part )
+
 This script bumps the semantic version and automatically creates 
 a changelog for releases. It requires bump2version, gitchangelog, 
 pystache, and git. It must be run from 'stage' branch.
+
 ARGS:
     -p  part of the version to increase. Version scheme:
         {major}.{minor}.{patch}-{release}.{build}
+
 OPTIONS:
     -h  Prints this usage information and exits
     -v  Prints verbose messages
     -r  Remove existing lockfiles from previous runs
+
 EX:
     Starting from a current version of 1.0.0:
+
     Task                        Command                 Version number
     ----                        -------                 --------------
     Start release candidate     $ bumpme -p patch       1.0.1-rc.0
     Added fixes, update RC      $ bumpme -p build       1.0.1-rc.1
     Add More fixes              $ bumpme -p build       1.0.1-rc.2
     Release                     $ bumpme -p release     1.0.1
+
 EOF
 else
 cat << EOF
 USAGE:
     $0  [ -h | --help ]
     $0  [ -v | --verbose ] [ -r | --rm ] ( -p | --part part )
+
 This script bumps the semantic version and automatically creates 
 a changelog for releases. It requires bump2version, gitchangelog, 
 pystache, and git. It must be run from 'stage' branch.
+
 ARGS:
     -p, --part      part of the version to increase. Version scheme:
                     {major}.{minor}.{patch}-{release}.{build}
+
 OPTIONS:
     -h, --help      Prints this usage information and exits
     -v, --verbose   Prints verbose messages
     -r, --rm        Remove existing lockfiles from previous runs
+
 EX:
     Starting from a current version of 1.0.0:
+
     Task                        Command                 Version number
     ----                        -------                 --------------
     Start release candidate     $ bumpme -p patch       1.0.1-rc.0
     Added fixes, update RC      $ bumpme -p build       1.0.1-rc.1
     Add More fixes              $ bumpme -p build       1.0.1-rc.2
     Release                     $ bumpme -p release     1.0.1
+
 EOF
 fi
 }
@@ -112,16 +124,16 @@ while true; do
     esac
 done
 
-if [[ $PART == "" ]]; then usage; fi
+if [[ $PART == "" ]]; then usage; exit; fi
 
-# Set log/lockfiles based on timesatamp
+# Set log/lockfiles based on timestamp
 TIMESTAMP=$(date +%Y%m%d.%H%M%S)
 LOGFILE="/tmp/bumpme.$TIMESTAMP.log"
 LOCKFILE="/tmp/bumpme.$TIMESTAMP.lock"
 
 check_commands() {
     if [[ $VERBOSE -eq 1 ]]; then echo "INFO: check_commands"; fi
-    for i in git gitchangelog bump2version; do
+    for i in git gitchangelog bump2version pystache; do
         if ! command -v $i &> /dev/null; then
             echo -e "ERROR: $i not found! Exiting"
             exit 1
@@ -206,7 +218,7 @@ move_tag() {
 # Bump version, commit and tag
 bump_version() {
     if [[ $VERBOSE -eq 1 ]]; then echo "INFO: bump_version"; fi
-    if [[ $BRANCH == "stage" ]]; then
+    if [[ $BRANCH == "stage" || $BRANCH == "dev" ]]; then
         echo -e "\n=== $MSG"
         touch $LOCKFILE
         {
@@ -214,7 +226,7 @@ bump_version() {
             bump2version "$PART"
             git commit -am "$MSG"
             git tag -a "$VER_NEW" -m "$MSG"
-            if [[ $PART == "release" ]]; then add_changelog; fi
+            if [[ $PART == "release"  && $BRANCH == "stage" && $VER_CURRENT == *"rc"* ]]; then add_changelog; fi
             git push origin "$BRANCH" --follow-tags
             set +e
         } 2>&1 | tee -a $LOGFILE
