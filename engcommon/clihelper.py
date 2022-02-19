@@ -16,6 +16,7 @@ import logging
 import os
 import pkg_resources
 
+from argparse import ArgumentError
 from . import fileio
 from . import formattext
 from . import log
@@ -71,6 +72,7 @@ class CLI:
         self._ch = self._logger.handlers[1]  # console
         self._bh = self._logger.handlers[2]  # buffer
         self._dh = self._logger.handlers[3]  # debug file
+        self._kh = self._logger_noformat.handlers[1]  # console
 
     @property
     def version(self):

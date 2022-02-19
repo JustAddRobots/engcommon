@@ -73,7 +73,7 @@ def get_std_logger_conf():
                 'handlers': ['file', 'console', 'buffer', 'debug'],
             },
             'noformat': {
-                'handlers': ['noformat'],
+                'handlers': ['noformat', 'console_nf'],
                 'propagate': False,
             },
         },
@@ -111,6 +111,11 @@ def get_std_logger_conf():
             },
             'noformat': {
                 'class': 'logging.FileHandler',
+                'formatter': 'noformat',
+            },
+            'console_nf': {
+                'stream': 'ext://sys.stdout',
+                'class': 'logging.StreamHandler',
                 'formatter': 'noformat',
             },
         },
@@ -200,8 +205,8 @@ def set_loglevels(loglevels):
         None
     """
     for mod, lvl in loglevels.items():
-        lgr = logging.getLogger(module)
-        lgr.setLevel(eval(f"logging.{level}"))
+        lgr = logging.getLogger(mod)
+        lgr.setLevel(eval(f"logging.{lvl}"))
     return None
 
 
@@ -216,8 +221,8 @@ def debug_enable(debug_api, loglevels):
         loglevels (dict): API/module with set levels.
     """
     for module in debug_api:
-        if module in loglevels.keys()
+        if module in loglevels.keys():
             loglevels[module] = "DEBUG"
         else:
             pass  # raise KeyError
-    return loglevel
+    return loglevels
