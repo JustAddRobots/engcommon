@@ -210,3 +210,28 @@ class CLI:
 
     def get_stdout(self):
         return self._get_stdout()
+
+
+def csv_str(vstr, sep = ","):
+    """Parse comma-separated value string for "nodes" option.
+
+    Args:
+        vstr (str): Value string from CLI, including commas.
+        sep (str): String separator.
+
+    Returns:
+        values (list): List of nodes.
+
+    Raises:
+        ArgumentError: Non-string value detected.
+    """
+    values = []
+    for v in vstr.split(sep):
+        try:
+            v = str(v)
+        except ValueError:
+            raise ArgumentError("Invalid value: {0}, must be string".format(v))
+        else:
+            v = v.strip(" ,")
+            values.append(v)
+    return values
