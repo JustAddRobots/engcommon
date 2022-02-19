@@ -73,7 +73,7 @@ def get_std_logger_conf():
                 'handlers': ['file', 'console', 'buffer', 'debug'],
             },
             'noformat': {
-                'handlers': ['noformat'],
+                'handlers': ['noformat', 'console_nf'],
                 'propagate': False,
             },
         },
@@ -111,6 +111,11 @@ def get_std_logger_conf():
             },
             'noformat': {
                 'class': 'logging.FileHandler',
+                'formatter': 'noformat',
+            },
+            'console_nf': {
+                'stream': 'ext://sys.stdout',
+                'class': 'logging.StreamHandler',
                 'formatter': 'noformat',
             },
         },
@@ -187,3 +192,37 @@ def get_formatted_logs(dict_):
     for cmd_name, output in dict_.items():
         str_ = str_ + "### {0} ###\n{1}\n".format(cmd_name, output)
     return str_
+
+
+def set_loglevels(loglevels):
+    """Set the loglevel of dependency modules.
+
+    Args:
+        loglevels (dict): Log level, keys: module names, values: level.
+            Ex: {"boto3": "WARNING", "matplotlib": "DEBUG"}
+
+    Returns:
+        None
+    """
+    for mod, lvl in loglevels.items():
+        lgr = logging.getLogger(mod)
+        lgr.setLevel(eval(f"logging.{lvl}"))
+    return None
+
+
+def debug_enable(debug_api, loglevels):
+    """Enable debug for listed API/modules.
+
+    Args:
+        debug_api (list): API/module names to enable debug.
+        loglevels (dict): Log level, keys: module name, values, level.
+
+    Returns:
+        loglevels (dict): API/module with set levels.
+    """
+    for module in debug_api:
+        if module in loglevels.keys():
+            loglevels[module] = "DEBUG"
+        else:
+            pass  # raise KeyError
+    return loglevels
