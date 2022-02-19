@@ -1,10 +1,22 @@
 Changelog
 =========
 
+0.7.0 (2022-02-19)
+------------------
+- ISSUE-059: Added bump2version. (fe379f2) [Roderick Constance]
+- ISSUE-056: Fixed logger_noformat, enabled pre-commit, pytest. (0336b12) [Roderick Constance]
+- ISSUE-056: Added csv_str parsing, api loglevel setting. (4ddf085) [Roderick Constance]
+
 0.6.6 (2021-04-26)
 ------------------
 - ISSUE-053: Disabled sort_dicts param until python-3.8. (55775b1) [JustAddRobots]
+
+0.6.5 (2021-04-21)
+------------------
 - ISSUE-050: Changed module version/title output loglevel to DEBUG. (345f224) [JustAddRobots]
+
+0.6.4 (2021-04-21)
+------------------
 - Stage: Updated for MacOS getopt. (137b6c3) [JustAddRobots]
 - Stage: Fixed hashbang for bash env. (eeeb720) [JustAddRobots]
 - ISSUE-047: Added sort_dicts to get_debug() (95b8a9c) [JustAddRobots]
